@@ -24,7 +24,6 @@ export class Database{
     if(search){
       data = data.filter(row => {
         return Object.entries(search).some(([key, value]) => {
-          console.log(row[key])
           return row[key].includes(value)
         })
       })
@@ -48,9 +47,26 @@ export class Database{
 
   update(table, id, data){
     const rowIndex = this.#database[table].findIndex(row => row.id === id)
-  
+    const databaseData = this.#database[table] ?? []
+    const database = databaseData.filter(data => id === data.id)
+    
+    const {created_at, completed_at} = database[0]
+   
     if(rowIndex > -1){
-      this.#database[table][rowIndex] = { id, ...data }
+      this.#database[table][rowIndex] = { id, created_at, completed_at, ...data }
+      this.#persist()
+    }
+  }
+
+  updateComplete(table, id, data){
+    const rowIndex = this.#database[table].findIndex(row => row.id === id)
+    const databaseData = this.#database[table] ?? []
+    const database = databaseData.filter(data => id === data.id)
+    
+    const {created_at, title, description,} = database[0]
+   
+    if(rowIndex > -1){
+      this.#database[table][rowIndex] = { id, title, description, created_at, ...data }
       this.#persist()
     }
   }
