@@ -8,7 +8,7 @@ import { randomUUID } from 'node:crypto'
 import { Database } from './database.js'
 import { buildRoutePath } from './util/build-route-path.js'
 
-const databasae = new Database()
+const database = new Database()
 
 export const routes = [
   {
@@ -17,7 +17,7 @@ export const routes = [
     handler: (req, res) => {
       const { search } = req.query
 
-      const users = databasae.select('users', search ? {
+      const users = database.select('users', search ? {
         name: search,
         email: search,
       }: null) 
@@ -37,7 +37,7 @@ export const routes = [
         email
       }
   
-      databasae.insert('users', user)
+      database.insert('users', user)
   
       return res.writeHead(201).end()
     }
@@ -49,7 +49,7 @@ export const routes = [
       const { id } = req.params
       const { name, email } = req.body
       
-      databasae.update('users', id, {
+      database.update('users', id, {
         name, 
         email
       })
@@ -63,7 +63,7 @@ export const routes = [
     handler: (req, res) => {
       const { id } = req.params
       
-      databasae.delete('users', id)
+      database.delete('users', id)
 
       return res.writeHead(204).end()
     }
