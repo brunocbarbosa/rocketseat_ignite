@@ -1,10 +1,17 @@
-import 'dotenv/config'
+import { config } from 'dotenv'
 import { z } from 'zod'
 
+console.log(process.env.NODE_ENV)
+
+if (process.env.NODE_ENV === 'test') {
+  console.log('entrou')
+  config({ path: '.env.test' })
+} else {
+  config()
+}
+
 const envSchema = z.object({
-  NODE_ENV: z
-    .enum(['development', 'test', 'production'])
-    .default('development'),
+  NODE_ENV: z.enum(['development', 'test', 'production']).default('production'),
   DATABASE_URL: z.string(),
   PORT: z.number().default(3333),
 })
