@@ -3,6 +3,8 @@ import { CheckinUseCase } from './check-in'
 import { InMemoryCheckInsRepository } from '@/repositories/in-memory/in-memory-check-ins-repository'
 import { InMemoryGymsRepository } from '@/repositories/in-memory/in-memory-gyms-repository'
 import { Decimal } from '@prisma/client/runtime/library'
+import { MaxNumberOfCheckInsError } from './errors/max-number-of-check-ins-error'
+import { MaxDistanceError } from './errors/max-distance-error'
 
 let checkInsRepository: InMemoryCheckInsRepository
 let gymsRepository: InMemoryGymsRepository
@@ -60,7 +62,7 @@ describe('Check-in User Case', () => {
         userLatitude: 0,
         userLongitude: 0,
       }),
-    ).rejects.toBeInstanceOf(Error)
+    ).rejects.toBeInstanceOf(MaxNumberOfCheckInsError)
   })
 
   it('should be able to check in twice but in different days', async () => {
@@ -83,5 +85,25 @@ describe('Check-in User Case', () => {
     })
 
     expect(checkIn.id).toEqual(expect.any(String))
+  })
+
+  it('should not be able to check in on distant gym', async () => {
+    gymsRepository.items.push({
+      id: 'gym-01',
+      title: 'Acad',
+      description: 'Academia',
+      latitude: new Decimal(-22.1277993),
+      longitude: new Decimal(-45.8827987),
+      phone: '',
+    })
+
+    await expect(() =>
+      sut.execute({
+        gymId: 'gym-01',
+        userId: 'user-01',
+        userLatitude: -22.2198287,
+        userLongitude: -45.9325576,
+      }),
+    ).rejects.toBeInstanceOf(MaxDistanceError)
   })
 })
