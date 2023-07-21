@@ -10,8 +10,9 @@
     "migrate:dev": "npx prisma migrate dev",
     "migrate:deploy": "npx prisma migrate deploy",
     "studio": "npx prisma studio",
-    "test": "vitest run",
-    "test:watch": "vitest",
+    "test": "vitest run --dir src/use-cases",
+    "test:watch": "vitest --dir src/use-cases",
+    "test:e2e": "vitest run --dir src/http",
     "test:coverage": "vitest --coverage",
     "test:ui": "vitest --ui"
   },
