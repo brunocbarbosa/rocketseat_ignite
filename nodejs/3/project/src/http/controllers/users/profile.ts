@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { makeGetUserProfileUseCase } from '../../use-cases/factories/make-get-user-profile-use-case'
+import { makeGetUserProfileUseCase } from '../../../use-cases/factories/make-get-user-profile-use-case'
 
 export async function profile(req: FastifyRequest, rep: FastifyReply) {
   const getUserProfile = makeGetUserProfileUseCase()
@@ -8,7 +8,7 @@ export async function profile(req: FastifyRequest, rep: FastifyReply) {
     userId: req.user.sub,
   })
 
-  return rep.status(201).send({
+  return rep.status(200).send({
     user: {
       ...user,
       password_hash: undefined,
