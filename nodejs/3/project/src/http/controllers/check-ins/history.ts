@@ -16,5 +16,5 @@ export async function history(req: FastifyRequest, rep: FastifyReply) {
     page,
   })
 
-  return rep.status(201).send({ checkIns })
+  return rep.status(200).send({ checkIns })
 }
