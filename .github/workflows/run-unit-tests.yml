@@ -1,6 +1,8 @@
 name: Run Unit Tests
 
-on: [push]
+on: 
+  push:
+    path: 'nodejs/3/project'
 
 jobs:
   run-unit-tests:
