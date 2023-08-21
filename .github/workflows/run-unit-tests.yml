@@ -16,6 +16,7 @@ jobs:
           node-version: 18
           cache: 'npm'
           cache-dependency-path: nodejs/3/project/package-lock.json
+      - run: ls  
       - run: cd nodejs   
       - run: cd 3   
       - run: cd project   
