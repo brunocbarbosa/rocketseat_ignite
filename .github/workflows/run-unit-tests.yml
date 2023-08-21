@@ -16,5 +16,6 @@ jobs:
           node-version: 18
           cache: 'npm'
           cache-dependency-path: nodejs/3/project/package-lock.json
+      - run: cd nodejs/3/project/    
       - run: npm ci
       - run: npm run test
